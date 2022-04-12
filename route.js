@@ -55,4 +55,30 @@ router.get("/category/:id", auth, async (req, res) => {
     }
 });
 
+//api/categories/delete-category/:id
+router.delete("/delete-category/:id", auth, async (req, res) => {
+    try {
+        const category = await Category.findByIdAndRemove(req.params.id);
+        return res.json({category, message: "OK"});
+    } catch (error) {
+        res.status(500).json({message: "Internal Server Error"});
+    }
+});
+
+//api/categories/update-category/:id
+router.put("/update-category/:id", auth, async (req, res) => {
+    try {
+        const category = await Category.findByIdAndUpdate(req.params.id, {
+            {
+                name: categoryName,
+                description: categoryDescription,
+                comment: categoryComment
+            }
+        });
+        return res.json({category, message: "OK"});
+    } catch (error) {
+        res.status(500).json({message: "Internal Server Error"});
+    }
+});
+
 module.exports = router;
